@@ -22,7 +22,7 @@ const Home = () => {
 
     const getdata = async () => {
 
-        const res = await fetch("/getdata", {
+        const res = await fetch("https://ajmerncrud.herokuapp.com/getdata", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -32,8 +32,12 @@ const Home = () => {
         const data = await res.json();
         console.log(data);
 
-        if (res.status === 422 || !data) {
-            console.log("error ");
+        if (res.status === 422 && data.message) {
+            alert(data.message);
+
+        }
+        else if (res.status === 422) {
+            alert(data);
 
         } else {
             setUserdata(data)
@@ -48,7 +52,7 @@ const Home = () => {
 
     const deleteuser = async (id) => {
 
-        const res2 = await fetch(`/deleteuser/${id}`, {
+        const res2 = await fetch(`https://ajmerncrud.herokuapp.com/deleteuser/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"

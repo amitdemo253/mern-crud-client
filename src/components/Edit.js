@@ -36,7 +36,7 @@ const Edit = () => {
 
     const getdata = async () => {
 
-        const res = await fetch(`/getuser/${id}`, {
+        const res = await fetch(`https://ajmerncrud.herokuapp.com/getuser/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -46,8 +46,12 @@ const Edit = () => {
         const data = await res.json();
         console.log(data);
 
-        if (res.status === 422 || !data) {
-            console.log("error ");
+        if (res.status === 422 && data.errors) {
+            alert(data.message);
+
+        }
+        else if (res.status === 422) {
+            alert(data);
 
         } else {
             setINP(data)
@@ -66,7 +70,7 @@ const Edit = () => {
 
         const {name,email,work,add,mobile,desc,age} = inpval;
 
-        const res2 = await fetch(`/updateuser/${id}`,{
+        const res2 = await fetch(`https://ajmerncrud.herokuapp.com/updateuser/${id}`,{
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -79,8 +83,13 @@ const Edit = () => {
         const data2 = await res2.json();
         console.log(data2);
 
-        if(res2.status === 422 || !data2){
-            alert("fill the data");
+        if (res2.status === 422 && data2.message) {
+            alert(data2.message);
+
+        }
+        else if (res2.status === 422) {
+            alert(data2);
+
         }else{
             history.push("/")
             setUPdata(data2);
@@ -90,7 +99,6 @@ const Edit = () => {
 
     return (
         <div className="container">
-            <NavLink to="/">home2</NavLink>
             <form className="mt-4">
                 <div className="row">
                     <div class="mb-3 col-lg-6 col-md-6 col-12">

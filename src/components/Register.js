@@ -35,7 +35,7 @@ const Register = () => {
 
         const { name, email, work, add, mobile, desc, age } = inpval;
 console.log(inpval);
-        const res = await fetch("/register", {
+        const res = await fetch("https://ajmerncrud.herokuapp.com/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -48,11 +48,15 @@ console.log(inpval);
         const data = await res.json();
         console.log(data);
 
-        if (res.status === 422 || !data) {
-            console.log("error ");
-            alert("error");
+        if (res.status === 422 && data.errors) {
+            alert(data.message);
 
-        } else {
+        }
+        else if (res.status === 422) {
+            alert(data);
+
+        }
+        else {
             history.push("/")
             setUdata(data)
             console.log("data added");
